@@ -1,0 +1,25 @@
+# Step 1: Use an official Ubuntu base image
+FROM ubuntu:22.04
+
+# Step 2: Update the package list and install necessary packages
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    build-essential \
+    golang-go \
+    wget \
+    nano \
+    && rm -rf /var/lib/apt/lists/*
+
+# Step 3: Set the working directory inside the container
+WORKDIR /app
+
+# Step 4: Install jsluice using the go install command
+RUN go install github.com/BishopFox/jsluice/cmd/jsluice@latest
+
+
+RUN cp -r /root/go/bin /usr/local/bin
+
+COPY js.txt js.sh .
+
+RUN chmod +x *
